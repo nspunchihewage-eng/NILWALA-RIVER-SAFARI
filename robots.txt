@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin.html
+Disallow: /nilwala-river-management-access.html
+Disallow: /admin.js
+Disallow: /admin.css
+Disallow: /firebase-config.js
+
+Sitemap: https://nilwalariversafari.com/sitemap.xml
