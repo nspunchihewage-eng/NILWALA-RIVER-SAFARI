@@ -847,19 +847,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const lkrPrice = data && data.price ? parseFloat(String(data.price).replace(/,/g, '')) : 0;
         const icon = data && data.icon ? data.icon : "fa-ship";
 
-        // Calculate display price
-        let displayPriceText = "";
-        if (currentCurrency === 'USD') {
-            displayPriceText = `$${(lkrPrice / EXCHANGE_RATE).toFixed(0)}`;
+        let priceHtml = "";
+        if (lkrPrice > 0) {
+            let displayPriceText = "";
+            if (currentCurrency === 'USD') {
+                displayPriceText = `$${(lkrPrice / EXCHANGE_RATE).toFixed(0)}`;
+            } else {
+                displayPriceText = `Rs. ${lkrPrice.toLocaleString()}`;
+            }
+            priceHtml = `<div class="price" data-lkr="${lkrPrice}">${displayPriceText}<span>/person</span></div>`;
         } else {
-            displayPriceText = `Rs. ${lkrPrice.toLocaleString()}`;
+            const waText = translations[savedLang]?.contact_price || "WhatsApp For Price";
+            priceHtml = `<a href="https://wa.me/94711048555?text=Hello,%20I%20would%20like%20to%20know%20the%20price%20for%20the%20${encodeURIComponent(name)}%20package." target="_blank" class="btn-primary" style="margin-bottom: 20px; padding: 10px 15px; font-size: 1rem; border-radius: 5px; text-decoration: none; display: flex; align-items: center; justify-content: center; width: 100%; background: #25D366; border-color: #25D366; color: white; transition: 0.3s;" onmouseover="this.style.background='#1DA851'" onmouseout="this.style.background='#25D366'"><i class="fab fa-whatsapp" style="margin-right: 8px;"></i> ${waText}</a>`;
         }
 
         div.innerHTML = `
             ${isPopular ? '<div class="popular-badge"><i class="fas fa-star"></i> ' + (translations[savedLang]?.most_popular || 'Most Popular') + '</div>' : ''}
             <div class="package-icon"><i class="fas ${icon}"></i></div>
             <h3>${escapeHTML(name)}</h3>
-            <div class="price" data-lkr="${lkrPrice}">${displayPriceText}<span>/person</span></div>
+            ${priceHtml}
             ${featuresHtml}
             <a href="#contact" class="btn-${isPopular ? 'primary' : 'outline'} w-100">${translations[savedLang]?.book_now || 'Book Now'}</a>
         `;
@@ -1149,7 +1155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gal_title: "Birds & Beasts", gal_subtitle: "A stunning collection of majestic crocodiles, beautiful storks (Kokku), and scenic views from the Nilwala river.",
             // Global / Mobile
             call: "Call", book_now: "Book Now", chat: "Chat", special_offer: "Special Offer!", claim_now: "Claim Now",
-            river_good: "Good", river_normal: "Normal", river_caution: "Caution", river_alert: "Alert", river_label: "River Condition", change_language: "Change Language", serv_view_more: "View All Services"
+            river_good: "Good", river_normal: "Normal", river_caution: "Caution", river_alert: "Alert", river_label: "River Condition", change_language: "Change Language", serv_view_more: "View All Services", contact_price: "WhatsApp For Price"
         },
         si: {
             nav_home: "මුල් පිටුව", nav_services: "සේවාවන්", nav_packages: "පැකේජ", nav_gallery: "ඡායාරූප", nav_wildlife: "වනජීවී විස්තර", nav_book: "දැන්ම වෙන්කරන්න",
@@ -1233,7 +1239,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gal_title: "වන පියස හා ජලජ අසිරිය", gal_subtitle: "නිල්වලා ගං ඉවුරේ සුන්දරත්වය සහ වනජීවීන්ගේ චමත්කාරජනක එකතුවක්.",
             // Global / Mobile
             call: "අමතන්න", book_now: "දැන්ම වෙන්කරන්න", chat: "පණිවිඩයක් එවන්න", special_offer: "විශේෂ දීමනාවක්!", claim_now: "දීමනාව ලබාගන්න",
-            river_good: "යහපත්", river_normal: "සාමාන්‍ය", river_caution: "අවධානයෙන්", river_alert: "අවදානම්", river_label: "ගඟේ තත්වය", change_language: "භාෂාව වෙනස් කරන්න", serv_view_more: "සියලුම සේවාවන් බලන්න"
+            river_good: "යහපත්", river_normal: "සාමාන්‍ය", river_caution: "අවධානයෙන්", river_alert: "අවදානම්", river_label: "ගඟේ තත්වය", change_language: "භාෂාව වෙනස් කරන්න", serv_view_more: "සියලුම සේවාවන් බලන්න", contact_price: "මිල ගණන් දැනගන්න"
         },
         de: {
             nav_home: "Startseite", nav_services: "Leistungen", nav_packages: "Pakete", nav_gallery: "Galerie", nav_wildlife: "Wildtiere", nav_book: "Jetzt Buchen",
@@ -1375,7 +1381,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gal_title: "Птицы и Звери", gal_subtitle: "Потрясающая коллекция величественных крокодилов, красивых аистов (Кокку) и живописных видов реки Нилвала.",
             // Global / Mobile
             call: "Позвонить", book_now: "Заказать", chat: "Чат", special_offer: "Акция!", claim_now: "Получить",
-            river_good: "Хорошо", river_normal: "Нормально", river_caution: "Осторожно", river_alert: "Тревога", river_label: "Состояние реки", change_language: "Сменить язык", serv_view_more: "Все наши услуги"
+            river_good: "Хорошо", river_normal: "Нормально", river_caution: "Осторожно", river_alert: "Тревога", river_label: "Состояние реки", change_language: "Сменить язык", serv_view_more: "Все наши услуги", contact_price: "Узнать цену"
         },
         fr: {
             nav_home: "Accueil", nav_services: "Services", nav_packages: "Forfaits", nav_gallery: "Galerie", nav_wildlife: "Vie Sauvage", nav_book: "Réserver",
@@ -1446,7 +1452,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gal_title: "Oiseaux et Fauves", gal_subtitle: "Une collection époustouflante de crocodiles majestueux, de belles cigognes (Kokku) et de vues panoramiques de la rivière Nilwala.",
             // Global / Mobile
             call: "Appeler", book_now: "Réserver", chat: "Chat", special_offer: "Offre Spéciale!", claim_now: "Profiter",
-            river_good: "Bon", river_normal: "Normal", river_caution: "Attention", river_alert: "Alerte", river_label: "État de la rivière", change_language: "Changer la langue", serv_view_more: "Tous nos services"
+            river_good: "Bon", river_normal: "Normal", river_caution: "Attention", river_alert: "Alerte", river_label: "État de la rivière", change_language: "Changer la langue", serv_view_more: "Tous nos services", contact_price: "Demander le prix"
         }
     };
 

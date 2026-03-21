@@ -814,8 +814,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const features = document.getElementById('pack-features').value;
             const icon = document.getElementById('pack-icon').value || 'fa-ship';
 
-            if (!name || !price) {
-                alert('Name and Price are required!');
+            if (!name) {
+                alert('Name is required!');
                 return;
             }
 
@@ -864,15 +864,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             querySnapshot.forEach((docSnap) => {
                 const data = docSnap.data();
-                const lkrPrice = parseFloat(String(data.price).replace(/,/g, '')) || 0;
+                const lkrPrice = data.price ? parseFloat(String(data.price).replace(/,/g, '')) || 0 : 0;
                 const usdPrice = (lkrPrice / EXCHANGE_RATE).toFixed(0);
+                
+                const priceDisplay = lkrPrice > 0 
+                    ? `Rs. ${lkrPrice.toLocaleString()} / <span style="color: #fff;">$${usdPrice}</span>` 
+                    : `Contact for Price`;
 
                 const item = document.createElement('div');
                 item.className = 'admin-list-item';
                 item.innerHTML = `
                     <div class="item-info">
                         <h4 style="font-weight: 700; color: white;">${escapeHTML(data.name)}</h4>
-                        <p style="color: var(--primary); font-weight: 600;">Rs. ${lkrPrice.toLocaleString()} / <span style="color: #fff;">$${usdPrice}</span></p>
+                        <p style="color: var(--primary); font-weight: 600;">${priceDisplay}</p>
                     </div>
                     <div class="item-actions">
                         <button class="action-btn delete" data-id="${docSnap.id}"><i class="fas fa-trash"></i></button>
